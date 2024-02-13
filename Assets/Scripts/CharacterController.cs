@@ -6,10 +6,12 @@ public class CharacterController : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
+    public int maxJumps = 2;
+    private int jumpsRemaining;
     Rigidbody2D rigidBody;
     private float inputMovement;
     public bool isLookingRight = true;
-    private BoxCollider2D boxCollider;
+    public BoxCollider2D boxCollider;
     public bool isOnFloor = false;
 
     public LayerMask surfaceLayer;
@@ -22,8 +24,8 @@ public class CharacterController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        jumpsRemaining = maxJumps;
     }
-
 
     // Update is called once per frame
     void Update()
@@ -31,39 +33,44 @@ public class CharacterController : MonoBehaviour
         ProcessingMovement();
         isOnFloor = CheckingFloor();
         ProcessingJump();
-        
-
     }
+
     bool CheckingFloor()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(
-                                        boxCollider.bounds.center, //Origen de la caja
-                                        new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y), //Tamaño
-                                        0f, //Ángulo
-                                        Vector2.down, //Direccion hacia la que va la caja
-                                        0.2f, //Distancia a la que aparece la caja
-                                        surfaceLayer//Layer mask
+                                        boxCollider.bounds.center,
+                                        new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y),
+                                        0f,
+                                        Vector2.down,
+                                        0.1f,
+                                        surfaceLayer
                                         );
-        return raycastHit.collider != null; //Devuelvo un valor siempre que no sea nulo
+        animator.SetBool("isOnFloor", isOnFloor);
+
+        // Restablecer el número de saltos restantes cuando toca el suelo
+        if (raycastHit.collider != null)
+        {
+            jumpsRemaining = maxJumps;
+        }
+
+        return raycastHit.collider != null;
     }
-
-
 
     void ProcessingJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnFloor)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpsRemaining--;
         }
-
     }
-
 
     void ProcessingMovement()
     {
         inputMovement = Input.GetAxis("Horizontal");
         isRunning = inputMovement != 0 ? true : false;
-        animator.SetBool("isRunning",isRunning);
+        animator.SetBool("isRunning", isRunning);
         rigidBody.velocity = new Vector2(inputMovement * speed, rigidBody.velocity.y);
         CharacterOrientation(inputMovement);
     }
@@ -76,5 +83,4 @@ public class CharacterController : MonoBehaviour
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
     }
-
 }
