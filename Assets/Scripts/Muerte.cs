@@ -29,7 +29,7 @@ public class PlayerDeath : MonoBehaviour
         }
     }
 
-    void LoseLife()
+    public void LoseLife()
     {
         currentLives--;
 
@@ -59,7 +59,7 @@ public class PlayerDeath : MonoBehaviour
     {
         if (livesText != null)
         {
-            livesText.text = "Lives: " + currentLives;
+            livesText.text = "Vidas: " + currentLives;
         }
     }
 
