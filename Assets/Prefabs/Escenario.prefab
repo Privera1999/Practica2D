@@ -8151,6 +8151,7 @@ MonoBehaviour:
   isLookingRight: 1
   boxCollider: {fileID: 0}
   isOnFloor: 0
+  jumpClip: {fileID: 0}
   surfaceLayer:
     serializedVersion: 2
     m_Bits: 64

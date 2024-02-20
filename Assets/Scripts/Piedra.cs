@@ -14,7 +14,7 @@ public class Piedra : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Si colisiona con una fruta, aumentar la variable y actualizar el texto
-            puntuacion.frutastotales+=100;
+            puntuacion.piedrastotales+=1;
             UpdateFruitsText();
 
             // Puedes desactivar o destruir la fruta después de recogerla
@@ -31,7 +31,7 @@ public class Piedra : MonoBehaviour
         // Actualizar el texto con la cantidad de frutas recolectadas
         if (fruitsText != null)
         {
-            fruitsText.text = "" + puntuacion.frutastotales;
+            fruitsText.text = "" + puntuacion.piedrastotales;
         }
     }
 }

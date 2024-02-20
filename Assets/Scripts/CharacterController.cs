@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class CharacterController : MonoBehaviour
     public BoxCollider2D boxCollider;
     public bool isOnFloor = false;
 
+    private AudioSource audioSource;
+        public AudioClip jumpClip;
+
     public LayerMask surfaceLayer;
 
     public bool isRunning;
@@ -25,6 +29,8 @@ public class CharacterController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         jumpsRemaining = maxJumps;
+        audioSource = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -63,6 +69,8 @@ public class CharacterController : MonoBehaviour
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0f);
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpsRemaining--;
+
+            audioSource.PlayOneShot(jumpClip);
         }
     }
 

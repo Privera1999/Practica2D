@@ -6,6 +6,7 @@ public class Puntuacion : MonoBehaviour
 {
 
     public int frutastotales=0;
+    public int piedrastotales = 0;
     // Start is called before the first frame update
     void Start()
     {
