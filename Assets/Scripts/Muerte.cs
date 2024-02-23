@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
@@ -8,7 +8,7 @@ public class PlayerDeath : MonoBehaviour
     public int maxLives = 3;
     private int currentLives;
 
-    public TMP_Text livesText;
+    public GameObject[] heartImages; // Arreglo de imágenes de corazones
     public GameObject gameOverPanel;
 
     // Puedes ajustar esta posición inicial según tu diseño de nivel
@@ -57,9 +57,10 @@ public class PlayerDeath : MonoBehaviour
 
     void UpdateLivesUI()
     {
-        if (livesText != null)
+        // Desactivar las imágenes de corazones que superen el número actual de vidas
+        for (int i = 0; i < heartImages.Length; i++)
         {
-            livesText.text = "Vidas: " + currentLives;
+            heartImages[i].SetActive(i < currentLives);
         }
     }
 
