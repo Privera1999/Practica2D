@@ -7,6 +7,7 @@ public class Fruta : MonoBehaviour
     public Puntuacion puntuacion;
     public int fruitsCollected;  // Variable para almacenar las frutas recolectadas
     public TMP_Text fruitsText;  // Texto para mostrar la cantidad de frutas
+    public AudioClip sonidoReocger;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,6 +17,8 @@ public class Fruta : MonoBehaviour
             // Si colisiona con una fruta, aumentar la variable y actualizar el texto
             puntuacion.frutastotales++;
             UpdateFruitsText();
+
+            AudioSource.PlayClipAtPoint(sonidoReocger, transform.position);
 
             // Puedes desactivar o destruir la fruta después de recogerla
             // other.gameObject.SetActive(false);
